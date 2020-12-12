@@ -1,5 +1,5 @@
 # docker-arr
 
-AR rust development container.
+AR dev and build container with rust an wine.
 
     docker run -it --rm wernerwessely/arr
