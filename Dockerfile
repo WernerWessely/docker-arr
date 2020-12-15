@@ -4,12 +4,13 @@ FROM rust:1.48.0-buster
 
 ARG DEBIAN_FRONTEND=noninteractive
 
+RUN rustup component add rustfmt rust-docs rls clippy rust-src rust-analysis
+
 RUN dpkg --add-architecture i386 \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
     wine \
-    wine32 \
-    && rm -rf /var/lib/apt/lists/*
+    wine32
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -19,13 +20,12 @@ RUN apt-get update \
     git \
     ca-certificates
 
+# Wine does not like running as root
 RUN adduser \
-    --home /home/dev \
+    --home /home/wine \
     --disabled-password \
     --shell /bin/bash \
-    --gecos "dev user" \
+    --gecos "wine user" \
     --quiet \
-    dev
-
-# Wine does not like running as root
-USER dev
+    wine
+    
